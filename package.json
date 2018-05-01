@@ -2,9 +2,12 @@
   "name": "starter-kit",
   "version": "1.0.0",
   "description": "Starter Kit For Creating jQ Plugins Speeding up time of developing new one",
-  "main": "\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "main": "dist/starter-kit.js",
+  "module": "src/plugin.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start karma.config.js --log-level debug",
+    "start": "webpack --mode=development --env.NODE_ENV=development --env.platform=web --config webpack.config.js",
+    "build": "webpack --mode=production --env.NODE_ENV=production --env.platform=web -p"
   },
   "keywords": [
     "jQuery",
@@ -12,11 +15,9 @@
   ],
   "author": "Muhammed Yousrii",
   "license": "ISC",
-    "dependencies": {
+  "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "jquery": "^3.2.1",
-    "localforage": "^1.7.1",
-    "lodash": "^4.17.5"
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -31,7 +32,7 @@
     "compass-mixins": "^0.12.10",
     "css-loader": "^0.28.11",
     "eslint-config-rallycoding": "^3.2.0",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^4.2.0",
