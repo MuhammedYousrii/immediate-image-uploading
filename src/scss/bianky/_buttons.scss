@@ -1,0 +1,13 @@
+@mixin reset_button($color, $border_width, $border_style:solid, $border_color: null, $text_color: null){
+    background: $color;
+    color: $text_color;
+    outline: none ;
+    @if $border_width == 0 {
+        border : none ;
+    }@else {
+        border-color: $border_color ;
+        border-width: $border_width ;
+        border-style : $border_style ;
+        @include border-radius(0.3rem);
+    };
+}

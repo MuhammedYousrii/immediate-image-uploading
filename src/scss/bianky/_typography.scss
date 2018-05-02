@@ -1,0 +1,41 @@
+@mixin font_import($prefix , $name , $type: "ttf") {
+    @font-face {
+        font-family: $name;
+        src: url('#{$prefix}/app/public/fonts/#{$name}.#{$type}');
+    }
+}
+
+@mixin text-control($transform, $align, $color, $deco: none) {
+    text-transform: $transform  !important;
+    text-align: $align !important ;
+    text-decoration: $deco ;
+    color: $color !important;
+}
+
+@mixin font-control($family , $weight , $size , $style: null) {
+    font: {
+        family: $family;
+        weight: $weight;
+        size: $size;
+        style: $style;
+    }
+}
+
+@mixin line-control($width , $left, $color: $warning, $bottom: 0) {
+    content: '';
+    position: absolute;
+    bottom: $bottom;
+    left: $left;
+    height: 0.18rem;
+    width: $width;
+    background: $color;
+
+
+    @include border-radius(5rem);
+}
+
+@mixin icon-control($right, $bottom) {
+    img {
+        right: $right;
+    }
+}

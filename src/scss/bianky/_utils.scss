@@ -1,0 +1,183 @@
+$breakpoints: (
+    xs: 0px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1400px,
+    2k: 2000px
+);
+@mixin resRange($min-size, $max-size) {
+    @media only screen and (min-width: (map-get($breakpoints, $min-size) + 1)) and (max-width: map-get($breakpoints, $max-size)) {
+        @content ;
+    }
+}
+
+@mixin resMax($max-size) {
+    @media only screen and (max-width: map-get($breakpoints, $max-size)) {
+        @content ;
+    }
+}
+
+@mixin resMin($min-size) {
+    @media only screen and (min-width: map-get($breakpoints, $min-size)) {
+        @content;
+    }
+}
+
+@mixin vertical-res($min-size, $type) {
+    @if quote($type) == "min" {
+        @media only screen and (min-height: map-get($verticalBreakPoints, $min-size)) {
+            @content ;
+        }
+    }
+    @else if quote($type) == "max" {
+        @media only screen and (max-height: map-get($verticalBreakPoints, $min-size)) {
+            @content ;
+        }
+    }
+}
+
+@mixin vertical-resRange($min-size, $max-size) {
+    @media only screen and (min-height: map-get($verticalBreakPoints, $min-size)) and (max-height: map-get($verticalBreakPoints, $max-size)) {
+        @content ;
+    }
+}
+
+@function pxtoperc($child-height, $parent-height) {
+    @return percentage($child-height / $parent-height / 14);
+}
+
+@function converter($value, $current-unit, $convert-unit) {
+    $root-base: 62.5;
+    $px-base: 10;
+    $px-base-for-perc: 16; // Converting from px Based On $px Base
+    @if $current-unit == px {
+        @if $convert-unit == perc {
+            @return percentage($value / $px-base-for-perc);
+        }
+        @else if $convert-unit == rem {
+            @return ($value / $px-base)rem;
+        }
+    }
+    @else if $current-unit == rem {
+        @if $convert-unit == perc {
+            @return ($value * $root-base) * 1%;
+        }
+        @else if $convert-unit == px {
+            @return ($value * $px-base) + 0px;
+        }
+    }
+    @else if $current-unit == perc {}
+}
+
+@function rem ($value) {
+    @return $value+rem;
+}
+
+@mixin text-truncate() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin no-padding($type, $dir: null) {
+    @if $type == "vert" {
+        @if $dir == "top" {
+            padding-top: 0 !important;
+        }
+        @else if $dir == "bottom" {
+            padding-bottom: 0 !important;
+        }
+        @else {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    }
+    @else if $type=="horz" {
+        @if $dir=="left" {
+            padding-left: 0 !important;
+        }
+        @else if $dir=="right" {
+            padding-right: 0 !important;
+        }
+        @else {
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+        }
+    }
+    @else if $type=="all" {
+        padding: 0 !important;
+    }
+    @else {
+        padding: $dir !important;
+    }
+}
+
+@mixin no-margin($type, $dir: null) {
+    @if $type=="vert" {
+        @if $dir=="top" {
+            margin-top: 0 !important;
+        }
+        @else if $dir=="bottom" {
+            margin-bottom: 0 !important;
+        }
+        @else {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+    }
+    @else if $type=="horz" {
+        @if $dir=="left" {
+            margin-left: 0 !important;
+        }
+        @else if $dir=="right" {
+            margin-right: 0 !important;
+        }
+        @else {
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
+    }
+    @else if $type=="all" {
+        margin: 0 !important;
+    }
+    @else {
+        margin: $dir !important;
+    }
+}
+
+@mixin reset-link($color) {
+    color: $color;
+    cursor: pointer;
+    &:hover,
+    &:active {
+        text-decoration: none;
+    }
+}
+
+@mixin overlay($color:#323232, $amount:0.3) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: fade-out($color, $amount)
+}
+
+
+@mixin icon-align($center, $dir: right, $space: 0.5rem) {
+    @if $center == true {
+        margin: auto;
+        padding: 0.5rem;
+    }
+    @else {
+        margin-#{$dir}: $space;
+    }
+}
+
+@mixin border-section ($name, $dir) {
+    .border-#{$name}-#{$dir} {
+        @content;
+    }
+}
+

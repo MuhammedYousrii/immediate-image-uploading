@@ -1,0 +1,33 @@
+%absolute-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+%reset-button {
+    background: transparent;
+    outline: 0;
+}
+
+%img-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+%position-ltr-reset {
+    top: 0;
+    left: 0;
+}
+
+%position-rtl-reset {
+    top: 0;
+    right: 0;
+}
+%focus-remove {
+    &:focus {
+        outline: 0;
+    }
+}

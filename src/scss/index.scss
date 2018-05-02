@@ -1,0 +1,9 @@
+@import 'bianky/base';
+html {
+    color: red;
+    transition: transform 0.5s linear;
+}
+
+:fullscreen {
+    color: yellow
+}
