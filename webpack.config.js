@@ -3,13 +3,11 @@ const path = require('path');
 const pluginConfig = require('./package.json');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = function (env) {
-    console.log(env);
     const libraryName = pluginConfig.name;
     const isProd = env.NODE_ENV === "production";
     const sass = function () {
         let config;
         //If Production mode
-        console.log(isProd);
         if (isProd) {
           //Extract all Css Into single file
           config = ExtractTextPlugin.extract({
@@ -28,7 +26,7 @@ module.exports = function (env) {
                 options: {
                   plugins: function() {
                     return [
-                      // require('precss'),
+                    //   require('precss'),
                       require('autoprefixer')
                     ];
                   }
