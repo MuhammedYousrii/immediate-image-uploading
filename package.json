@@ -1,8 +1,8 @@
 {
-  "name": "starter-kit",
+  "name": "jQuploodo",
   "version": "1.0.0",
-  "description": "Starter Kit For Creating jQ Plugins Speeding up time of developing new one",
-  "main": "dist/starter-kit.js",
+  "description": "Replace The default image-upload",
+  "main": "dist/jQuploodo.js",
   "module": "src/plugin.js",
   "scripts": {
     "test": "karma start karma.config.js --log-level debug",
