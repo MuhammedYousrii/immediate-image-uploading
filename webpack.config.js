@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function (env) {
     const libraryName = pluginConfig.name;
-    const isProd = env.NODE_ENV === "production";
+    const isProd = env.NODE_ENV === 'production';
     const sass = function () {
         let config;
         //If Production mode
@@ -51,11 +51,11 @@ module.exports = function (env) {
 
     return {
         entry: {
-            vendors: __dirname + '/src/vendors.js',
-            [pluginConfig.name]: __dirname + '/src/plugin.js',
+            vendors: path.join(__dirname, 'src/vendors.js'),
+            [libraryName]: path.join(__dirname, 'src/plugin.js'
         },
         output: {
-            path: __dirname + '/dist',
+            path: path.join(__dirname, 'dist'),
             filename: isProd ? '[name]' + '.min.js' : '[name]' + '.js',
             chunkFilename: '[name].js',
             library: pluginConfig.name,
@@ -95,7 +95,7 @@ module.exports = function (env) {
                 // chunks: 'all',
                 cacheGroups: {
                     vendors: {
-                        test: __dirname + '/src/vendors.js',
+                        test: path.join(__dirname, 'src/vendors.js'),
                         name: "vendors",
                         enforce: true,
                         chunks: 'initial'
