@@ -1,7 +1,8 @@
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const path = require('path');
 const pluginConfig = require('./package.json');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = function (env) {
     const libraryName = pluginConfig.name;
     const isProd = env.NODE_ENV === "production";
@@ -9,47 +10,48 @@ module.exports = function (env) {
         let config;
         //If Production mode
         if (isProd) {
-          //Extract all Css Into single file
-          config = ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            publicPath: '../',
-            allChunks: true,      
-            use: [{
-                loader: 'css-loader',
-                options: {
-                  minimize: true,
-                  sourceMap: true,
-                }
-              }, 
-              {
-                loader: 'postcss-loader',
-                options: {
-                  plugins: function() {
-                    return [
-                    //   require('precss'),
-                      require('autoprefixer')
-                    ];
-                  }
-                }
-              }, 
-              {
-                loader: 'resolve-url-loader'
-              }, {
-                loader: 'sass-loader'
-              }
-            ]
-          });
-      
-          return config;
+            //Extract all Css Into single file
+            config = ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                publicPath: '../',
+                allChunks: true,
+                use: [{
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true,
+                            sourceMap: true,
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
+                                    //   require('precss'),
+                                    require('autoprefixer')
+                                ];
+                            }
+                        }
+                    },
+                    {
+                        loader: 'resolve-url-loader'
+                    }, {
+                        loader: 'sass-loader'
+                    }
+                ]
+            });
+
+            return config;
         }
         // if Development Mode
         config = ['style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader'];
         return config;
-      };
-      
+    };
+
+
     return {
         entry: {
-            vendors: __dirname + '/src/vendors.js', 
+            vendors: __dirname + '/src/vendors.js',
             [pluginConfig.name]: __dirname + '/src/plugin.js',
         },
         output: {
@@ -101,6 +103,40 @@ module.exports = function (env) {
                 },
             },
         },
+
+        devServer: {
+            // Serve Content From Dist Folder
+            contentBase: path.join(__dirname, 'dist'),
+            // Compress With Gzip
+            compress: true,
+            port: 8080,
+            // OPEN IN SPECIFIC BROWSER
+            open: 'chrome',
+            // ENABLE HOT MODULE REPLACEMENT 
+            hot: true,
+            // WATCHING CONTENT BASE 
+            watchContentBase: true,
+
+            // SUPPORT HISTORY APIS
+            historyApiFallback: true,
+
+
+            // WATCHING CONFIG
+            watchOptions: {
+                aggregateTimeout: 500,
+                ignored: './node_modules/',
+                poll: 1000,
+            },
+
+            /* DEVELOPMENT-SERVER STATE */
+            stats: {
+                colors: true,
+                providedExports: true,
+                depth: true
+
+            }
+        },
+
 
         plugins: [
             new ExtractTextPlugin({
