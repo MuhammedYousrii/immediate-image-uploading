@@ -1,4 +1,4 @@
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const path = require('path');
 const pluginConfig = require('./package.json');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -138,11 +138,13 @@ module.exports = function (env) {
         },
 
 
-        plugins: [
+        plugins: isProd ? [
             new ExtractTextPlugin({
                 disable: !isProd,
                 filename: isProd ? '[name].min.css' : '[name].css',
             })
+        ] : [
+            new webpack.HotModuleReplacementPlugin(),
         ]
-    }
-}
+    };
+};
