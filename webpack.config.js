@@ -166,6 +166,11 @@ module.exports = function (env) {
                 // favicon: path.resolve(__dirname, '../favicon.ico'),
                 template: path.resolve(__dirname, `src/index.${pluginConfig.htmlPreprocessor 
                     ? pluginConfig.htmlPreprocessor : 'html'}`),
+            }),
+            new webpack.DefinePlugin({
+                $: 'jquery',
+                jQuery: 'jquery',
+                'window.jQuery': 'jquery' 
             })
         ]
 
