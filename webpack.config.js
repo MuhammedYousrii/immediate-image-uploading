@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const pluginConfig = require('./package.json');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const htmlGen = require('html-webpack-plugin');
 
 module.exports = function (env) {
     const libraryName = pluginConfig.name;
@@ -52,11 +53,11 @@ module.exports = function (env) {
     return {
         entry: {
             vendors: path.join(__dirname, 'src/vendors.js'),
-            [libraryName]: path.join(__dirname, 'src/plugin.js'
+            [libraryName]: path.join(__dirname, 'src/plugin.js')
         },
         output: {
             path: path.join(__dirname, 'dist'),
-            filename: isProd ? '[name]' + '.min.js' : '[name]' + '.js',
+            filename: isProd ? `${'[name].min.js'}` : `${'[name].js'}`,
             chunkFilename: '[name].js',
             library: pluginConfig.name,
             libraryTarget: 'umd',
@@ -78,6 +79,15 @@ module.exports = function (env) {
                         loader: 'babel-loader',
                     }
 
+                },
+
+                // PUG LOADER
+                {
+                    test: /\.pug$/,
+                    exclude: path.resolve(__dirname, 'node_modules/'),
+                    use: [{
+                        loader: 'pug-loader'
+                    }]
                 },
 
                 // SASS LOADER
@@ -138,13 +148,26 @@ module.exports = function (env) {
         },
 
 
-        plugins: isProd ? [
+        plugins: [
             new ExtractTextPlugin({
                 disable: !isProd,
                 filename: isProd ? '[name].min.css' : '[name].css',
-            })
-        ] : [
+            }),
             new webpack.HotModuleReplacementPlugin(),
+            new htmlGen({
+                filename: 'index.html',
+                title: libraryName,
+                minify: {
+                    collapseWhitespace: isProd,
+                    collapseBooleanAttributes: isProd
+                },
+                cache: true,
+                hash: !isProd,
+                // favicon: path.resolve(__dirname, '../favicon.ico'),
+                template: path.resolve(__dirname, `src/index.${pluginConfig.htmlPreprocessor 
+                    ? pluginConfig.htmlPreprocessor : 'html'}`),
+            })
         ]
+
     };
 };
