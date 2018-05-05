@@ -3,6 +3,7 @@ const path = require('path');
 const pluginConfig = require('./package.json');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const htmlGen = require('html-webpack-plugin');
+const dirCleaner = require('clean-webpack-plugin');
 
 module.exports = function (env) {
     const libraryName = pluginConfig.name;
@@ -171,7 +172,10 @@ module.exports = function (env) {
                 $: 'jquery',
                 jQuery: 'jquery',
                 'window.jQuery': 'jquery'
-            })
+            }),
+
+
+            new dirCleaner(['dist'])
         ]
 
     };
