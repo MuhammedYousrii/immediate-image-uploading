@@ -52,7 +52,6 @@ module.exports = function (env) {
 
     return {
         entry: {
-            vendors: path.join(__dirname, 'src/vendors.js'),
             [libraryName]: path.join(__dirname, 'src/plugin.js')
         },
         output: {
@@ -102,11 +101,12 @@ module.exports = function (env) {
 
         optimization: {
             splitChunks: {
-                // chunks: 'all',
+                chunks: 'all',
                 cacheGroups: {
                     vendors: {
-                        test: path.join(__dirname, 'src/vendors.js'),
-                        name: "vendors",
+                        test: /[\\/]node_modules[\\/]/,
+                        // name: 'vendors',
+                        priority: 10,
                         enforce: true,
                         chunks: 'initial'
                     },
@@ -167,10 +167,10 @@ module.exports = function (env) {
                 template: path.resolve(__dirname, `src/index.${pluginConfig.htmlPreprocessor 
                     ? pluginConfig.htmlPreprocessor : 'html'}`),
             }),
-            new webpack.DefinePlugin({
+            new webpack.ProvidePlugin({
                 $: 'jquery',
                 jQuery: 'jquery',
-                'window.jQuery': 'jquery' 
+                'window.jQuery': 'jquery'
             })
         ]
 
