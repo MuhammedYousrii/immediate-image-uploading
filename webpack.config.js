@@ -52,6 +52,7 @@ module.exports = function (env) {
 
 
     return {
+        cache: true,
         entry: {
             [libraryName]: path.join(__dirname, 'src/plugin.js')
         },
@@ -119,7 +120,7 @@ module.exports = function (env) {
             // Serve Content From Dist Folder
             contentBase: path.join(__dirname, 'dist'),
             // Compress With Gzip
-            compress: true,
+            compress: false,
             port: 8080,
             // OPEN IN SPECIFIC BROWSER
             open: 'chrome',
