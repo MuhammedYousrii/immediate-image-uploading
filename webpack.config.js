@@ -148,6 +148,12 @@ module.exports = function (env) {
 
             }
         },
+        resolve: {
+            alias: {
+                h: path.resolve(__dirname, 'src/js/helpers/')
+            },
+            extensions: ['.js', '.scss']
+        },
 
 
         plugins: [
