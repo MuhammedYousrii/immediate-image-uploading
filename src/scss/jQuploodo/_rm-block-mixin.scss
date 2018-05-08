@@ -1,0 +1,22 @@
+@mixin rm-block ($offset: 0.25rem, $size: 1.355rem, $color: $white, $background: $info, $radius: null) {
+    position: absolute;
+    top: $offset;
+    left: $offset;
+
+    color: $color;
+    background: $background;
+
+    height: $size;
+    line-height: $size;
+    width: $size;
+
+    text-align: center;
+    border-color: $info;
+    outline: 0;
+    border: 0;
+    @if $radius == 'circle' {
+        border-radius: 50%;
+    } @else {
+        border-radius: .455rem;
+    }
+}

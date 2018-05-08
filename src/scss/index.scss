@@ -1,9 +1,33 @@
 @import 'bianky/base';
-html {
-    color: red;
-    transition: transform 0.5s linear;
-}
+@import 'bianky/buttons';
+@import 'jQuploodo/block-mixin';
+@import 'jQuploodo/rm-block-mixin';
+@import 'jQuploodo/caption-mixin';
+#jQuploodo {
+    height: 15rem;
+    padding: .725rem 1rem;
+    
+    .upload-btn {
+        @include reset_button($info, 1px, solid, $info, $white);
+        padding: .35rem .75rem;
+        text-transform: capitalize;
+    }
 
-:fullscreen {
-    color: yellow
+    .jQuploodo-block {
+        @include jQuploodo-block;
+
+        .rm-block {
+            @include rm-block;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .block-caption {
+            @include block-caption;
+        }
+    }
 }
