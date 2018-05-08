@@ -1,45 +1,87 @@
+import classify from 'h/classify';
+import hasAttr from 'h/hasAttr';
+
+/**
+ * @class immediateImageUploading 
+ * @author Muhammed Yousrii <muhammed.yuosr y@gmail.com>
+ * @version 1.0.0
+ * 
+ * @summary Re-place The default Browser File-input With Deep Configure Ui
+ * @export
+ */
 class immediateImageUploading {
     constructor(el, options) {
+        this.el = el;
+        this.name = 'jQuploodo';
         this.default = {
-            multi: true,
-            btnText: 'upload'
-        }
+            btnText: 'upload',
+            bootstrapClasses: undefined,
+            animateTime: 'slow',
+            markupClasses: {
+                rmBtnClass: 'rm-block',
+                block: 'jQuploodo-block',
+                blockCaption: 'block-caption',
+                uploadBtn: 'upload-btn'
+            }
+        };
+        this.options = options;
         this.indexer = 0;
 
         this.init();
     }
 
+    
+    processOriginal() {
+        if (this.config.multi) this.el.attr('multiple', '');
+        this.el.css('visibility', 'hidden');
+    }
+
     configuration() {
-        this.config = Object.assign({}, this.default, options); 
+        this.config = Object.assign({}, this.default, this.options); 
+        if (hasAttr(this.el, 'multiple')) {
+            this.config.multi = true;
+        } else {
+            this.config.multi = false;
+        }
+    }
+
+    bootstrapSupportChecker(supportToAdd) {
+        return this.config.bootstrapClasses ? supportToAdd : '';
     }
 
     markupCreator(files, index) {
         return $(
-            '<figure class="${} img-block"> <button id="remove-image" type="button"> <i class="fa fa-times" aria-hidden="true"></i></button> <div class="clearfix"></div> <img class="img-responsive img-thumbnail" alt="' + e.target.files["" + index + ""].name + '" src=' + window.URL.createObjectURL(e.target.files["" + index + ""]) + ' data-index="' + index + '"><figcaption id="image-name">' + e.target.files["" + index + ""].name + '</figcaption></figure>'
+            `<figure class="${this.config.markupClasses.block} ${this.bootstrapSupportChecker('col')}" data-index="${index}"> 
+                <button type="button" class="${this.config.markupClasses.rmBtnClass} ${this.bootstrapSupportChecker('close')}" aria-label="close"> <i> &times;</i> </button> 
+                <img class="img-responsive img-thumbnail" alt="${files[index].name}" src="${window.URL.createObjectURL(files[index])}">
+                <figcaption class="${this.config.markupClasses.blockCaption}" id="${files[index].name}">${files[index].name}</figcaption>
+            </figure>`
         );
     }
 
 
     globalMarkupCreator() {
         this.imagesContainer = $(`
-            <section></section>
+            <section id="${this.name}"></section>
         `);
-        this.uploadBtn = $(`<button> ${this.config.btnText} </button>`);
+        this.uploadBtn = $(
+            `<div><button class="${this.config.markupClasses.uploadBtn} ${this.bootstrapSupportChecker('btn btn-info btn-lg')}">
+            ${this.config.btnText} 
+            </button></div>`
+        );
 
         this.el.after(this.imagesContainer);
-        this.imagesContainer.after(this.uploadBtn);
+        this.imagesContainer.append(this.uploadBtn);
     }
 
-    uploadImage(e) {
-        const files = e.target.files; 
-        const imagesLength = e.target.files.length;
+    uploadImage() {
+        const files = this.e.target.files; 
+        const imagesLength = this.e.target.files.length;
         // IF THERE ARE ANY FILES UPLOADED
+
         if (files && files[0]) {
-            
             if (imagesLength > 1) {
-
                 if (this.config.multi) {
-
                     this.imagesContainer.append(this.markupCreator(files, this.indexer));
                     this.indexer++;
                     if (this.indexer == imagesLength) return this.indexer = 0;
@@ -54,22 +96,34 @@ class immediateImageUploading {
         }
     }
 
+    removeImage(e) {
+        const self = $(e.target);
+        const block = self.closest(classify(this.config.markupClasses.block));
+        delete this.el[0].files[block.data('index')];
+        console.log(this.el[0].files[block.data('index')]);
+        block.fadeOut(this.config.animateTime);
+    }
+
     firing() {
         this.uploadBtn.click(() => {
             this.el.click();
-        })
+        });
 
         this.el.change((e) => {
-            this.uploadImage(e);
-        })
+            this.e = e;
+            this.uploadImage();
+        });
+
+        this.imagesContainer.on('click', classify(this.config.markupClasses.rmBtnClass), (e) => {
+            this.removeImage(e);
+        });
     }
 
     init() {
         this.configuration();
+        this.processOriginal();
         this.globalMarkupCreator();
         this.firing();
     }
 }
-
-
 export default immediateImageUploading;

@@ -1,22 +1,18 @@
+import './hot';
+
+import 'jquery';
 import immediateImageUploading from './js';
 import './scss/index.scss';
 
 
-if (module.hot) {
-    module.hot.accept(/\.(js?$|scss)/, () => {
-        console.log('all the dependencies have been accepted');
+$.fn.immediateImageUploading = function (options) {
+    return this.each(function () {
+        new immediateImageUploading($(this), options);
     });
-}
+};
 
-console.log($);
-
-// $.fn.immediateImageUploading = function (options) {
-//     return this.each(function () {
-//         new immediateImageUploading(this, options);
-//     });
-// };
-
-// $('#ahmed').immediateImageUploading({
-//     multi: true,
-//     uploadBtnText: "upload Images"
-// });
+$('#ahmed').immediateImageUploading({
+    multi: true,
+    btnText: 'upload Images',
+    bootstrapClasses: false,
+});
